@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: sacco-postgres
+    environment:
+      POSTGRES_DB: sacco_analytics
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sacco_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: sacco-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - sacco_network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  sacco_network:
+    driver: bridge

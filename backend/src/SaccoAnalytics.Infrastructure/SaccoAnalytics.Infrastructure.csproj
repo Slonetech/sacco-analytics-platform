@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.9.17" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SaccoAnalytics.Core\SaccoAnalytics.Core.csproj" />
+    <ProjectReference Include="..\SaccoAnalytics.Application\SaccoAnalytics.Application.csproj" />
+  </ItemGroup>
+
+</Project>
