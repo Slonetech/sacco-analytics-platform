@@ -1,6 +1,5 @@
 # sacco-analytics-platform
 # Update README.md
-$readmeContent = @"
 # SACCO Analytics Platform
 
 A secure, multi-tenant SaaS platform for Savings and Credit Cooperative Organizations (SACCOs) to manage financial reporting and analytics.
