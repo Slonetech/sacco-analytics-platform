@@ -55,7 +55,6 @@ builder.Services.AddAuthentication(options =>
 
 // Services
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<DatabaseSeeder>();
 
 // CORS
 builder.Services.AddCors(options =>
@@ -74,7 +73,9 @@ var app = builder.Build();
 // Seed database
 using (var scope = app.Services.CreateScope())
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var seeder = new DatabaseSeeder(roleManager, userManager);
     await seeder.SeedAsync();
 }
 

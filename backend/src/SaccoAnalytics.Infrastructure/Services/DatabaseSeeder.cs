@@ -6,15 +6,18 @@ namespace SaccoAnalytics.Infrastructure.Services;
 public class DatabaseSeeder
 {
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public DatabaseSeeder(RoleManager<ApplicationRole> roleManager)
+    public DatabaseSeeder(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager)
     {
         _roleManager = roleManager;
+        _userManager = userManager;
     }
 
     public async Task SeedAsync()
     {
         await SeedRolesAsync();
+        await SeedSystemAdminAsync();
     }
 
     private async Task SeedRolesAsync()
@@ -39,6 +42,32 @@ public class DatabaseSeeder
                 };
 
                 await _roleManager.CreateAsync(role);
+            }
+        }
+    }
+
+    private async Task SeedSystemAdminAsync()
+    {
+        var adminEmail = "admin@saccoanalytics.com";
+        var adminUser = await _userManager.FindByEmailAsync(adminEmail);
+
+        if (adminUser == null)
+        {
+            adminUser = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                FirstName = "System",
+                LastName = "Administrator",
+                EmailConfirmed = true,
+                IsActive = true
+            };
+
+            var result = await _userManager.CreateAsync(adminUser, "Admin123!");
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(adminUser, "SystemAdmin");
             }
         }
     }
