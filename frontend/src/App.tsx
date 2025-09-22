@@ -1,10 +1,11 @@
-import { useAuth, AuthProvider } from './hooks/auth/useAuth';
-import LoginForm from './components/auth/LoginForm';
-import Dashboard from './components/dashboard/Dashboard';
+import { useAuth, AuthProvider } from './hooks/auth/useAuth.tsx';
+import LoginForm from './components/auth/LoginForm.tsx';
+import Dashboard from './components/dashboard/Dashboard.tsx';
+import AdminDashboard from './components/admin/AdminDashboard.jsx';
 import './App.css';
 
 function AppContent() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   if (isLoading) {
     return (
@@ -14,7 +15,17 @@ function AppContent() {
     );
   }
 
-  return isAuthenticated ? <Dashboard /> : <LoginForm />;
+  if (!isAuthenticated) {
+    return <LoginForm />;
+  }
+
+  // Show admin dashboard for system admins
+  if (user?.roles?.includes('SystemAdmin')) {
+    return <AdminDashboard />;
+  }
+
+  // Show regular dashboard for other users
+  return <Dashboard />;
 }
 
 function App() {
