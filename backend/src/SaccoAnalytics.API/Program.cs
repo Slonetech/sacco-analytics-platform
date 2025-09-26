@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SaccoAnalytics.Core.Entities.Identity;
+using SaccoAnalytics.Core.Interfaces;
 using SaccoAnalytics.Infrastructure.Data;
 using SaccoAnalytics.Infrastructure.Services;
+using SaccoAnalytics.API.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Multi-tenancy
+builder.Services.AddScoped<ITenantContext, TenantContext>();
 
 // Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -91,6 +96,9 @@ app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Add tenant middleware AFTER authentication
+app.UseMiddleware<TenantMiddleware>();
 
 app.MapControllers();
 

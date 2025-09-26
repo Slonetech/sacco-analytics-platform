@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SaccoAnalytics.Core.Entities.Financial;
 
-public class Transaction : BaseEntity
+public class Transaction : BaseEntity, ITenantEntity
 {
     [Required]
     [StringLength(20)]
